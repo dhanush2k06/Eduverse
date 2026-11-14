@@ -1,17 +1,19 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { 
-  GraduationCap, 
+  Terminal,
   LayoutDashboard, 
   Users, 
   BookOpen, 
   FileSearch, 
-  BarChart2, 
+  BarChart3, 
   Settings, 
   LogOut, 
   ShieldCheck,
-  ArrowLeft,
-  UserCheck
+  Cpu,
+  Layers,
+  Activity,
+  ExternalLink
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -19,105 +21,174 @@ export default function AdminLayout() {
   const { currentUser, logout } = useAuth();
   const location = useLocation();
 
-  const adminNav = [
-    { label: 'Overview', path: '/admin', icon: LayoutDashboard },
-    { label: 'Learners (CRM)', path: '/admin/crm', icon: Users },
-    { label: 'Courses & Content', path: '/admin/courses', icon: BookOpen },
-    { label: 'Research Library', path: '/admin/research', icon: FileSearch },
-    { label: 'Analytics', path: '/admin', icon: BarChart2 },
-    { label: 'Settings', path: '#settings', icon: Settings }
+  const operationsNav = [
+    { label: 'Executive Overview', path: '/admin', icon: LayoutDashboard },
+    { label: 'Learner Pipeline (CRM)', path: '/admin/crm', icon: Users, badge: 'Active' },
+  ];
+
+  const curriculumNav = [
+    { label: 'Course Studio (5 Testing)', path: '/admin/courses', icon: BookOpen, badge: '5 Flagships' },
+    { label: 'Research Evidence Index', path: '/admin/research', icon: FileSearch },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-100 flex">
-      {/* Dark Sidebar */}
-      <aside className="w-64 bg-[#0f172a] text-white flex flex-col flex-shrink-0 z-20">
-        <div className="p-6 border-b border-slate-800">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white">
-              <GraduationCap className="w-5 h-5" />
+    <div className="min-h-screen bg-[#070b14] text-slate-100 flex font-sans">
+      {/* High-Tech Dark Operations Sidebar */}
+      <aside className="w-72 bg-[#0c1220] border-r border-slate-800/80 flex flex-col flex-shrink-0 z-20">
+        
+        {/* Brand Command Header */}
+        <div className="p-5 border-b border-slate-800/80 bg-[#090d18]">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+              <Terminal className="w-5 h-5" />
             </div>
             <div>
-              <span className="font-extrabold text-xl tracking-tight text-white">
-                Edu<span className="text-blue-500">Verse</span>
-              </span>
-              <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                Admin
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="font-extrabold text-base tracking-tight text-white">
+                  EduVerse <span className="text-emerald-400 font-mono">CRM</span>
+                </span>
+              </div>
+              <p className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">
+                Operations Command Console
+              </p>
             </div>
-          </Link>
+          </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
-          {adminNav.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-            return (
-              <Link
-                key={item.label}
-                to={item.path}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                  isActive 
-                    ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/30' 
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                {item.label}
-              </Link>
-            );
-          })}
+        {/* Real-time Telemetry Tag */}
+        <div className="px-5 py-2.5 bg-[#090f1d] border-b border-slate-800/60 flex items-center justify-between text-[11px] font-mono">
+          <div className="flex items-center gap-2 text-emerald-400">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>PORT 5174 (ISOLATED)</span>
+          </div>
+          <span className="text-slate-500">RBAC: ADMIN</span>
+        </div>
+
+        {/* Navigation Sections */}
+        <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
+          {/* Group 1: Operations */}
+          <div>
+            <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold">
+              Operations & Learner Pipeline
+            </div>
+            <div className="space-y-1">
+              {operationsNav.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.path;
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.path}
+                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-emerald-600/30 to-teal-600/20 text-emerald-300 font-semibold border border-emerald-500/40 shadow-sm' 
+                        : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
+                      <span>{item.label}</span>
+                    </div>
+                    {item.badge && (
+                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/40 font-bold">
+                        {item.badge}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Group 2: Curriculum Management */}
+          <div>
+            <div className="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold">
+              Curriculum & Content Studio
+            </div>
+            <div className="space-y-1">
+              {curriculumNav.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.path;
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.path}
+                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                      isActive 
+                        ? 'bg-gradient-to-r from-emerald-600/30 to-teal-600/20 text-emerald-300 font-semibold border border-emerald-500/40 shadow-sm' 
+                        : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : 'text-slate-400'}`} />
+                      <span>{item.label}</span>
+                    </div>
+                    {item.badge && (
+                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800/40 font-bold">
+                        {item.badge}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </nav>
 
-        {/* Footer actions */}
-        <div className="p-4 border-t border-slate-800 space-y-3">
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-xs text-slate-400 hover:text-slate-200"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            Public Learning Site
-          </Link>
+        {/* Staff Identity & Sign Out */}
+        <div className="p-4 border-t border-slate-800/80 bg-[#090d18] space-y-3">
+          <div className="flex items-center gap-3 p-2 rounded-xl bg-slate-900/80 border border-slate-800">
+            <img
+              src={currentUser?.photoURL || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80'}
+              alt={currentUser?.displayName}
+              className="w-8 h-8 rounded-lg object-cover ring-2 ring-emerald-500/50"
+            />
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-bold text-white truncate">{currentUser?.displayName || 'Admin Dhanush'}</p>
+              <p className="text-[10px] font-mono text-emerald-400 truncate">SuperAdmin</p>
+            </div>
+          </div>
 
           <button
             onClick={logout}
-            className="w-full flex items-center gap-2 text-xs text-red-400 hover:text-red-300 pt-1"
+            className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-mono text-red-400 hover:text-red-300 hover:bg-red-950/30 border border-red-900/30 transition-all"
           >
             <LogOut className="w-3.5 h-3.5" />
-            Sign Out
+            <span>Terminate Admin Session</span>
           </button>
         </div>
       </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
-        <header className="h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-10">
-          <div>
-            <h1 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-blue-600" />
-              EduVerse Learner CRM & Operations
-            </h1>
-            <p className="text-xs text-slate-500">Monitor engagement, manage courses, and support learners</p>
+      {/* Main Operations Area */}
+      <div className="flex-1 flex flex-col min-w-0 bg-[#070b14] overflow-y-auto">
+        {/* Operations Top Header */}
+        <header className="h-16 bg-[#0c1220]/90 backdrop-blur border-b border-slate-800 px-8 flex items-center justify-between sticky top-0 z-10">
+          <div className="flex items-center gap-3">
+            <ShieldCheck className="w-5 h-5 text-emerald-400" />
+            <div>
+              <h1 className="text-sm font-bold text-white flex items-center gap-2 font-mono">
+                EDUVERSE // OPERATIONS COMMAND CONSOLE
+              </h1>
+              <p className="text-[11px] text-slate-400 font-mono">
+                Live Telemetry · 5 Testing Courses Active · Strict Auth Isolation
+              </p>
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-semibold border border-emerald-200">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Live CRM Database Connected
+          <div className="flex items-center gap-4 text-xs font-mono">
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-emerald-950/60 text-emerald-400 border border-emerald-800/50 rounded-lg">
+              <Activity className="w-3.5 h-3.5 animate-pulse text-emerald-400" />
+              <span>SPARK FIRESTORE: LIVE</span>
             </div>
 
-            <div className="flex items-center gap-2 pl-3 border-l border-slate-200">
-              <img
-                src={currentUser?.photoURL || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80'}
-                alt={currentUser?.displayName}
-                className="w-8 h-8 rounded-full object-cover border border-slate-200"
-              />
-              <span className="text-xs font-bold text-slate-900">{currentUser?.displayName}</span>
+            <div className="flex items-center gap-2 text-slate-400 text-xs">
+              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span>ADMIN: {currentUser?.email || 'dhanushharidoss47@gmail.com'}</span>
             </div>
           </div>
         </header>
 
+        {/* Content Outlet with Dark Enterprise Palette */}
         <main className="p-8 flex-1 max-w-7xl mx-auto w-full">
           <Outlet />
         </main>
@@ -125,4 +196,3 @@ export default function AdminLayout() {
     </div>
   );
 }
-

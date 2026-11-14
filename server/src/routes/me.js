@@ -7,29 +7,28 @@ const router = Router();
 // GET /api/v1/me - Learner Profile & Summary
 router.get('/', verifyAuth, (req, res) => {
   try {
-    const learner = dbStore.getLearnerProfile360(req.user.uid) || {
-      id: req.user.uid,
-      displayName: req.user.displayName,
-      email: req.user.email,
-      role: req.user.role || 'learner',
-      streakDays: 7,
-      learningHours: 24.5,
-      skillLevel: 'Intermediate',
-      passportLevel: 2,
-      passportLevelTitle: 'Level 2 Learner',
-      enrolledCoursesCount: 5,
-      completedCoursesCount: 3,
-      skillsProgress: [
-        { skill: "Data Science", percentage: 78, level: "Advanced" },
-        { skill: "Communication", percentage: 72, level: "Intermediate" },
-        { skill: "Problem Solving", percentage: 66, level: "Intermediate" }
-      ],
-      achievements: [
-        { id: "ach-1", title: "Quick Learner", icon: "Zap", date: "2026-09-02" },
-        { id: "ach-2", title: "Top Performer", icon: "Award", date: "2026-09-28" },
-        { id: "ach-3", title: "Course Star", icon: "Star", date: "2026-10-14" }
-      ]
-    };
+    let learner = dbStore.getLearnerProfile360(req.user.uid);
+    if (!learner) {
+      const enrollments = dbStore.getUserEnrollments(req.user.uid) || [];
+      const completedCount = enrollments.filter(e => e.status === 'completed').length;
+      learner = {
+        id: req.user.uid,
+        displayName: req.user.displayName || req.user.email?.split('@')[0] || 'Learner',
+        email: req.user.email,
+        role: 'learner',
+        streakDays: 1,
+        learningHours: 0,
+        skillLevel: 'Beginner',
+        passportLevel: 1,
+        passportLevelTitle: 'Level 1 Explorer',
+        enrolledCoursesCount: enrollments.length,
+        completedCoursesCount: completedCount,
+        skillsProgress: [],
+        achievements: [],
+        enrollments,
+        notes: []
+      };
+    }
 
     res.json({ user: learner });
   } catch (error) {

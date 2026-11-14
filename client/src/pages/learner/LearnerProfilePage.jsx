@@ -69,7 +69,7 @@ export default function LearnerProfilePage() {
             <input
               type="text"
               readOnly
-              value="EDV-2026-9481-VERIFIED"
+              value={currentUser?.uid || 'EDV-LEARNER-VERIFIED'}
               className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-mono"
             />
           </div>

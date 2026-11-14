@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import { ShieldAlert, ExternalLink, ArrowRight } from 'lucide-react';
 
 // Layouts
 import Navbar from './components/layout/Navbar';
@@ -32,13 +33,15 @@ import Learner360ProfilePage from './pages/admin/Learner360ProfilePage';
 import AdminCoursesPage from './pages/admin/AdminCoursesPage';
 import AdminResearchPage from './pages/admin/AdminResearchPage';
 
-// Detect CRM mode
-const isCrmMode = import.meta.env.VITE_APP_MODE === 'crm' || (typeof window !== 'undefined' && window.location.port === '5174');
+// Detect whether running in CRM mode (port 5174 or VITE_APP_MODE=crm)
+const isCrmMode = 
+  import.meta.env.VITE_APP_MODE === 'crm' || 
+  (typeof window !== 'undefined' && window.location.port === '5174');
 
-// Public Layout Wrapper (only used on public site)
+// Public Layout Wrapper
 function PublicLayout({ children }) {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
       <Navbar />
       <main className="flex-1">
         {children}
@@ -48,30 +51,38 @@ function PublicLayout({ children }) {
   );
 }
 
-// Protected Route for Learners (public site only)
+// Protected Route for Learners (Public Site Only)
 function LearnerRoute({ children }) {
   const { currentUser, isAdmin, loading } = useAuth();
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center text-sm text-slate-500">
         <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-3"></div>
-        Authenticating...
+        Authenticating Learner Session...
       </div>
     );
   }
   if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
-  // Admin accounts should not access the learner dashboard on the public site
   if (isAdmin) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="text-center p-8 bg-white rounded-2xl border border-slate-200 shadow-lg max-w-md">
-          <h2 className="text-lg font-bold text-slate-900 mb-2">Admin Account Detected</h2>
-          <p className="text-sm text-slate-500 mb-4">
-            Admin accounts should use the CRM portal at{' '}
-            <a href="http://localhost:5174" className="text-blue-600 font-semibold hover:underline">localhost:5174</a>.
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+        <div className="text-center p-8 bg-white rounded-3xl border border-slate-200 shadow-xl max-w-md space-y-4">
+          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
+            <ShieldAlert className="w-6 h-6" />
+          </div>
+          <h2 className="text-lg font-bold text-slate-900">Admin Account Detected</h2>
+          <p className="text-xs text-slate-500 leading-relaxed">
+            Administrative staff accounts cannot access the student learning portal. Please open the isolated CRM Operations Console.
           </p>
+          <a 
+            href="http://localhost:5174" 
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md transition-all"
+          >
+            <span>Open CRM Portal (Port 5174)</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
         </div>
       </div>
     );
@@ -79,38 +90,58 @@ function LearnerRoute({ children }) {
   return children;
 }
 
-// Protected Route for Admin CRM
+// Protected Route for Admin CRM (CRM Site Only)
 function AdminRoute({ children }) {
   const { currentUser, isAdmin, loading } = useAuth();
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-sm text-slate-500">
-        <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mr-3"></div>
-        Verifying CRM administrative access...
+      <div className="min-h-screen bg-[#070b14] flex items-center justify-center text-xs font-mono text-emerald-400">
+        <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mr-3"></div>
+        VERIFYING STAFF SECURITY CLEARANCE...
       </div>
     );
   }
-  if (!currentUser) {
+  if (!currentUser || !isAdmin) {
     return <Navigate to="/login" replace />;
-  }
-  // Non-admin users should not access the CRM portal
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-100">
-        <div className="text-center p-8 bg-white rounded-2xl border border-slate-200 shadow-lg max-w-md">
-          <h2 className="text-lg font-bold text-red-600 mb-2">Access Denied</h2>
-          <p className="text-sm text-slate-500 mb-4">
-            You do not have administrator privileges. Learner accounts should use the{' '}
-            <a href="http://localhost:5173" className="text-blue-600 font-semibold hover:underline">public learning site</a>.
-          </p>
-        </div>
-      </div>
-    );
   }
   return children;
 }
 
-// ─── CRM-Mode App (port 5174) ──────────────────────────────
+// Isolation Notice for when someone visits /admin or /crm on Public Port 5173
+function CrmPortRedirectNotice() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
+      <div className="text-center p-8 bg-slate-800 border border-slate-700 rounded-3xl shadow-2xl max-w-md space-y-5">
+        <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/20">
+          <ShieldAlert className="w-7 h-7" />
+        </div>
+        <div className="space-y-1">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800/40">
+            Security Isolation
+          </span>
+          <h2 className="text-xl font-bold text-white pt-2">CRM Console is Isolated</h2>
+        </div>
+        <p className="text-xs text-slate-300 leading-relaxed font-sans">
+          This port (<strong>5173</strong>) is dedicated exclusively to the Public Learning Site. The Administrative CRM Console runs on its own isolated server:
+        </p>
+        <div className="p-3 bg-slate-900 rounded-xl font-mono text-xs text-emerald-400 border border-slate-700">
+          http://localhost:5174
+        </div>
+        <div className="pt-2">
+          <a
+            href="http://localhost:5174"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono font-bold text-xs shadow-lg shadow-emerald-900/30 transition-all"
+          >
+            <span>Launch CRM Portal (Port 5174)</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── CRM-Mode Application (Port 5174) ──────────────────────────────
 function CRMApp() {
   return (
     <Routes>
@@ -126,13 +157,13 @@ function CRMApp() {
         <Route path="research" element={<AdminResearchPage />} />
       </Route>
 
-      {/* Redirect everything else to admin login */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      {/* Redirect all other URLs directly to /admin */}
+      <Route path="*" element={<Navigate to="/admin" replace />} />
     </Routes>
   );
 }
 
-// ─── Public-Mode App (port 5173) ────────────────────────────
+// ─── Public-Mode Application (Port 5173) ────────────────────────────
 function PublicApp() {
   return (
     <Routes>
@@ -153,8 +184,9 @@ function PublicApp() {
         <Route path="profile" element={<LearnerProfilePage />} />
       </Route>
 
-      {/* No admin routes on public site — redirect to home */}
-      <Route path="/admin/*" element={<Navigate to="/" replace />} />
+      {/* Explicit Isolation: Direct users to port 5174 for administrative CRM */}
+      <Route path="/admin/*" element={<CrmPortRedirectNotice />} />
+      <Route path="/crm/*" element={<CrmPortRedirectNotice />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

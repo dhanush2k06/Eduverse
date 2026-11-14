@@ -1,8 +1,21 @@
 const API_BASE = '/api/v1';
 
+const isCRM = () => {
+  if (typeof window === 'undefined') return false;
+  return (
+    window.location.port === '5174' ||
+    window.location.pathname.startsWith('/admin') ||
+    window.location.pathname.startsWith('/crm')
+  );
+};
+
 const getHeaders = () => {
-  const token = localStorage.getItem('eduverse_token');
-  const user = JSON.parse(localStorage.getItem('eduverse_user') || '{}');
+  const isCrm = isCRM();
+  const tokenKey = isCrm ? 'eduverse_crm_admin_token' : 'eduverse_public_learner_token';
+  const userKey = isCrm ? 'eduverse_crm_admin_user' : 'eduverse_public_learner_user';
+
+  const token = localStorage.getItem(tokenKey) || localStorage.getItem('eduverse_token');
+  const user = JSON.parse(localStorage.getItem(userKey) || localStorage.getItem('eduverse_user') || '{}');
   
   const headers = {
     'Content-Type': 'application/json'
@@ -13,7 +26,7 @@ const getHeaders = () => {
   }
   if (user?.uid) {
     headers['x-user-id'] = user.uid;
-    headers['x-user-role'] = user.role || 'learner';
+    headers['x-user-role'] = user.role || (isCrm ? 'admin' : 'learner');
     if (user.email) {
       headers['x-user-email'] = user.email;
     }

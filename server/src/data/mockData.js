@@ -275,62 +275,6 @@ export const initialCourses = [
     enrolledCount: 2890,
     completionRate: 71,
     skillsAwarded: ["Negotiation", "Conflict Resolution", "Strategic Compromise"]
-  },
-  {
-    id: "course-financial-literacy",
-    slug: "financial-literacy",
-    title: "Financial Literacy: Principles of Wealth Architecture",
-    shortDescription: "Manage money wisely. Master budgeting, compounding interest, debt optimization, and long-term security.",
-    description: "Demystify macroeconomic inflation, index-fund asset allocation, emergency liquidity buffers, and behavioral finance pitfalls. Gain clear, actionable templates for personal financial peace of mind.",
-    categoryId: "cat-life-skills",
-    categoryName: "Life Skills",
-    difficulty: "Beginner",
-    rating: 4.8,
-    reviewsCount: "9k",
-    estimatedDuration: "8 hours",
-    modulesCount: 3,
-    lessonsCount: 6,
-    thumbnailURL: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800&q=80",
-    bannerURL: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=1600&q=80",
-    prerequisites: ["Basic arithmetic"],
-    learningOutcomes: [
-      "Implement the 50/30/20 cash flow architecture with automatic savings conduits",
-      "Evaluate high-interest debt payoff strategies (Avalanche vs. Snowball models)",
-      "Explain compound interest mechanics, expense ratios, and tax-advantaged retirement accounts"
-    ],
-    status: "Published",
-    publishedAt: "2026-10-01T00:00:00Z",
-    enrolledCount: 4100,
-    completionRate: 85,
-    skillsAwarded: ["Financial Literacy", "Asset Allocation", "Risk Management"]
-  },
-  {
-    id: "course-creative-writing",
-    slug: "creative-writing",
-    title: "Creative Writing: Narrative Craft & Expressive Voice",
-    shortDescription: "Turn ideas into stories. Master narrative arcs, authentic dialogue, pacing, and sensory prose.",
-    description: "Explore the fundamentals of character motivation, Chekhov's gun, subtextual dialogue, and descriptive immersion. Regular writing prompts and self-editing checklists help you craft compelling fiction or creative nonfiction.",
-    categoryId: "cat-exploration",
-    categoryName: "Exploration",
-    difficulty: "Beginner",
-    rating: 4.7,
-    reviewsCount: "5k",
-    estimatedDuration: "8 hours",
-    modulesCount: 3,
-    lessonsCount: 6,
-    thumbnailURL: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80",
-    bannerURL: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1600&q=80",
-    prerequisites: ["Love for reading and storytelling"],
-    learningOutcomes: [
-      "Develop dimensional characters with conflicting inner wounds and outward desires",
-      "Compose crisp dialogue rich in subtext without explanatory tags",
-      "Implement three-act dramatic structure with satisfying climax and resolution"
-    ],
-    status: "Published",
-    publishedAt: "2026-10-05T00:00:00Z",
-    enrolledCount: 2450,
-    completionRate: 68,
-    skillsAwarded: ["Creative Writing", "Storytelling", "Editing & Voice"]
   }
 ];
 
@@ -977,7 +921,7 @@ export const initialCRMOverview = {
   metrics: {
     totalLearners: 12480,
     learnersGrowthPct: 12,
-    activeCourses: 48,
+    activeCourses: 5,
     activeCoursesGrowthPct: 9,
     completionRate: 76,
     completionRateGrowthPct: 5,

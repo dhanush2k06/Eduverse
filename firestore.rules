@@ -1,0 +1,102 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    function isAdmin() {
+      return isAuthenticated() && (request.auth.token.role == 'admin' || request.auth.token.email.matches('.*admin.*'));
+    }
+    function isStaff() {
+      return isAuthenticated() && (isAdmin() || request.auth.token.role == 'staff' || request.auth.token.role == 'reviewer');
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) || isAdmin();
+    }
+
+    // Categories (Publicly readable, Admin manageable)
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Courses (Publicly readable for published, Admin manageable)
+    match /courses/{courseId} {
+      allow read: if resource.data.status == 'Published' || isStaff();
+      allow write: if isStaff();
+
+      match /modules/{moduleId} {
+        allow read: if true;
+        allow write: if isStaff();
+
+        match /lessons/{lessonId} {
+          allow read: if isAuthenticated() || isStaff();
+          allow write: if isStaff();
+        }
+      }
+    }
+
+    // Research Sources (Public transparency library, Admin editable)
+    match /researchSources/{sourceId} {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+
+    // Enrollments
+    match /enrollments/{enrollmentId} {
+      allow read: if isOwner(resource.data.userId) || isStaff();
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isOwner(resource.data.userId) || isStaff();
+      allow delete: if isAdmin();
+    }
+
+    // Lesson Progress
+    match /lessonProgress/{progressId} {
+      allow read: if isOwner(resource.data.userId) || isStaff();
+      allow write: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || isOwner(resource.data.userId));
+    }
+
+    // Activities (Answer keys are server-protected)
+    match /activities/{activityId} {
+      allow read: if isAuthenticated();
+      allow write: if isStaff();
+    }
+
+    // Submissions & Quiz Attempts
+    match /submissions/{submissionId} {
+      allow read: if isOwner(resource.data.userId) || isStaff();
+      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow update: if isStaff();
+    }
+
+    // Learner CRM & Staff Notes (Strictly Admin/Staff only! Learners cannot read CRM data)
+    match /learnerCRM/{userId} {
+      allow read, write: if isStaff();
+
+      match /notes/{noteId} {
+        allow read, write: if isStaff();
+      }
+    }
+
+    // Activity Telemetry Events
+    match /activityEvents/{eventId} {
+      allow read: if isStaff() || isOwner(resource.data.userId);
+      allow create: if isAuthenticated();
+    }
+
+    // Aggregated Metrics
+    match /platformMetrics/{metricId} {
+      allow read: if isStaff();
+      allow write: if isAdmin();
+    }
+  }
+}
+

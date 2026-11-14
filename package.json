@@ -1,0 +1,13 @@
+{
+  "name": "eduverse-platform",
+  "version": "1.0.0",
+  "description": "EduVerse: Modern Research-Driven E-Learning Platform with Learner CRM",
+  "scripts": {
+    "start:server": "cd server && npm start",
+    "start:public": "cd client && npm run dev:public",
+    "start:crm": "cd client && npm run dev:crm",
+    "build:client": "cd client && npm run build",
+    "test:server": "cd server && npm test"
+  },
+  "keywords": ["elearning", "crm", "react", "express", "firebase"]
+}

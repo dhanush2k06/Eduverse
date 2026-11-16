@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node test-logic.js"
+    "test": "node test-logic.js && node test-proctoral.js"
   },
   "keywords": ["elearning", "crm", "firebase"],
   "author": "EduVerse Team",

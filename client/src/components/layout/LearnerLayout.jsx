@@ -16,6 +16,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import UnderTestingBanner from '../common/UnderTestingBanner';
 
 export default function LearnerLayout() {
   const { currentUser } = useAuth();
@@ -125,6 +126,7 @@ export default function LearnerLayout() {
         <main className="p-6 lg:p-8 flex-1 max-w-7xl mx-auto w-full">
           <Outlet />
         </main>
+        <UnderTestingBanner mode="light" />
       </div>
     </div>
   );

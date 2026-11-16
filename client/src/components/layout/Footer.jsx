@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { GraduationCap, Globe, Share2, Mail, ExternalLink } from 'lucide-react';
+import UnderTestingBanner from '../common/UnderTestingBanner';
 
 export default function Footer() {
   return (
@@ -71,6 +72,7 @@ export default function Footer() {
           © 2026 EduVerse. All rights reserved.
         </div>
       </div>
+      <UnderTestingBanner mode="light" />
     </footer>
   );
 }

@@ -12,6 +12,7 @@ import {
   KeyRound
 } from 'lucide-react';
 import { useAuth, ADMIN_EMAIL, ADMIN_CONFIGURED_PASSWORD } from '../../context/AuthContext';
+import UnderTestingBanner from '../../components/common/UnderTestingBanner';
 
 export default function CRMLoginPage() {
   const [email, setEmail] = useState(ADMIN_EMAIL);
@@ -242,6 +243,8 @@ export default function CRMLoginPage() {
       <div className="max-w-6xl mx-auto w-full text-center text-[11px] font-mono text-slate-600 py-2">
         EduVerse Operations Command Console • 5 Flagship Courses Active • Firebase Live Connection Verified
       </div>
+
+      <UnderTestingBanner mode="dark" />
     </div>
   );
 }

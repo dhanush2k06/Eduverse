@@ -79,10 +79,84 @@ export const api = {
     return res.json();
   },
 
-  // Activities & Quizzes
+  // Activities & Proctoral Assessments
   async getActivity(activityId) {
     const res = await fetch(`${API_BASE}/activities/${activityId}`, { headers: getHeaders() });
     if (!res.ok) throw new Error('Activity not found');
+    return res.json();
+  },
+
+  async getAssessmentOverview(activityId) {
+    const res = await fetch(`${API_BASE}/activities/${activityId}/overview`, { headers: getHeaders() });
+    if (!res.ok) throw new Error('Assessment overview not found');
+    return res.json();
+  },
+
+  async startAssessmentAttempt(activityId) {
+    const res = await fetch(`${API_BASE}/activities/${activityId}/attempts/start`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Failed to start assessment attempt');
+    }
+    return res.json();
+  },
+
+  async getAttempt(attemptId) {
+    const res = await fetch(`${API_BASE}/activities/attempts/${attemptId}`, { headers: getHeaders() });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Failed to fetch assessment attempt');
+    }
+    return res.json();
+  },
+
+  async saveAttemptResponse(attemptId, questionId, selectedOptions, isMarkedForReview = false) {
+    const res = await fetch(`${API_BASE}/activities/attempts/${attemptId}/responses/${questionId}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ selectedOptions, isMarkedForReview })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Failed to autosave answer');
+    }
+    return res.json();
+  },
+
+  async recordAttemptWarning(attemptId, eventType, description) {
+    const res = await fetch(`${API_BASE}/activities/attempts/${attemptId}/warnings`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ eventType, description })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Failed to record warning');
+    }
+    return res.json();
+  },
+
+  async sendAttemptHeartbeat(attemptId) {
+    const res = await fetch(`${API_BASE}/activities/attempts/${attemptId}/heartbeat`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+    if (!res.ok) throw new Error('Heartbeat failed');
+    return res.json();
+  },
+
+  async submitAssessmentAttempt(attemptId) {
+    const res = await fetch(`${API_BASE}/activities/attempts/${attemptId}/submit`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Failed to submit assessment');
+    }
     return res.json();
   },
 

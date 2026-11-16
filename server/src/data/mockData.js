@@ -593,70 +593,179 @@ export const initialActivities = [
     moduleId: "mod-ct-1",
     lessonId: "lesson-ct-basics",
     type: "quiz",
-    title: "Foundations of Critical Thinking — Knowledge Check",
-    instructions: "Evaluate each scenario carefully. Select the most accurate answer based on the intellectual standards and dual-process theory discussed in this lesson.",
-    timeLimitMinutes: 10,
-    totalPoints: 10,
+    title: "Foundations of Critical Thinking — Formal Proctoral Assessment",
+    description: "Comprehensive 10-question proctoral assessment covering System 1 vs. System 2 cognition, cognitive biases, informal fallacies, and Universal Intellectual Standards.",
+    instructions: "This is a proctored examination. You have 15 minutes to complete 10 questions (both single-select and multi-select). Fullscreen mode is enforced. Tab switching or exiting fullscreen will register misconduct warnings. 3 warnings will immediately terminate your attempt. A maximum of 3 attempts are permitted.",
+    timeLimitMinutes: 15,
+    durationSeconds: 900,
+    totalPoints: 25,
+    passingScorePercentage: 70,
+    attemptLimit: 3,
+    warningLimit: 3,
+    questionCount: 10,
+    negativeMarkingEnabled: false,
     questions: [
       {
         id: "q1",
-        question: "Which of the following is a key characteristic of critical thinking?",
+        question: "Which of the following best defines the primary objective of critical thinking?",
+        questionType: "single",
         options: [
-          "Accepting information without question",
-          "Analyzing and evaluating evidence",
-          "Ignoring different perspectives",
-          "Relying only on personal opinion"
+          "Accepting institutional consensus without interrogation",
+          "Evaluating claims and evidence systematically using objective standards",
+          "Generating persuasive emotional appeals in debate",
+          "Relying on initial intuitive heuristics to make rapid decisions"
         ],
         correctAnswerIndex: 1,
+        marks: 2,
+        topicTag: "Foundations",
+        difficulty: "Beginner",
         explanation: "Critical thinking specifically requires the systematic, objective analysis and evaluation of evidence, rather than emotional belief or passive acceptance."
       },
       {
         id: "q2",
-        question: "According to Kahneman's dual-process model, System 1 thinking is characterized as:",
+        question: "According to Kahneman & Tversky's dual-process cognition model, System 1 thinking is characterized as:",
+        questionType: "single",
         options: [
-          "Deliberate, slow, effortful, and logical",
-          "Fast, automatic, intuitive, and subconscious",
-          "Only accessible through mathematical formulas",
-          "Completely immune to cognitive bias"
+          "Deliberate, slow, metabolically demanding, and structured",
+          "Fast, automatic, subconscious, and heuristic-driven",
+          "Exclusively activated during advanced mathematical calculations",
+          "Completely immune to framing effects and cognitive bias"
         ],
         correctAnswerIndex: 1,
-        explanation: "System 1 is the rapid, heuristic, automatic mode of cognition that responds instantaneously with low conscious effort."
+        marks: 2,
+        topicTag: "Dual-Process Theory",
+        difficulty: "Intermediate",
+        explanation: "System 1 is the rapid, heuristic, automatic mode of cognition that responds instantaneously with low conscious effort, while System 2 is slow, deliberate, and effortful."
       },
       {
         id: "q3",
-        question: "A manager refuses to cancel an underperforming project because 'we already invested $500,000 into it'. What cognitive bias is operating here?",
+        question: "Which of the following behavioral patterns are direct manifestations of Confirmation Bias? (Select all that apply)",
+        questionType: "multiple",
         options: [
-          "Confirmation bias",
-          "Sunk cost fallacy",
-          "Availability heuristic",
-          "Framing effect"
+          "Searching specifically for data that validates an already-formed hypothesis",
+          "Discounting or dismissing contradictory peer-reviewed findings",
+          "Actively seeking disconfirming evidence to stress-test one's own assumptions",
+          "Interpreting ambiguous observations as unequivocal support for one's own view",
+          "Immediately updating beliefs when presented with rigorous counter-evidence"
         ],
-        correctAnswerIndex: 1,
-        explanation: "The sunk cost fallacy occurs when past unrecoverable investments dictate ongoing commitments rather than future expected utility."
+        correctAnswerIndices: [0, 1, 3],
+        marks: 3,
+        topicTag: "Cognitive Biases",
+        difficulty: "Intermediate",
+        explanation: "Confirmation bias manifests through cherry-picking supporting data (A), discounting contradictory findings (B), and interpreting ambiguous facts favorably (D). Actively seeking disconfirming evidence (C) and updating beliefs (E) are critical thinking remedies against confirmation bias."
       },
       {
         id: "q4",
-        question: "Steelmanning an opposing argument means:",
+        question: "A tech company continues funding a failing software project solely because they have already spent $4,000,000 on it. What cognitive fallacy does this represent?",
+        questionType: "single",
         options: [
-          "Misrepresenting the argument to make it easy to defeat",
-          "Constructing the strongest possible version of the other person's position",
-          "Attacking the speaker's personal background instead of their claim",
-          "Repeating your own point louder until the other party concedes"
+          "Availability cascade",
+          "Sunk cost fallacy",
+          "Fundamental attribution error",
+          "Survivorship bias"
         ],
         correctAnswerIndex: 1,
-        explanation: "Steelmanning is the intellectual standard of presenting the opponent's case in its most coherent and compelling light before analyzing its validity."
+        marks: 2,
+        topicTag: "Fallacies",
+        difficulty: "Beginner",
+        explanation: "The sunk cost fallacy occurs when unrecoverable past investments dictate future decisions instead of future expected utility and objective prospects."
       },
       {
         id: "q5",
-        question: "Which intellectual standard asks whether a statement corresponds directly with empirical verification and facts?",
+        question: "In academic and strategic discourse, 'steelmanning' an opposing argument refers to:",
+        questionType: "single",
         options: [
-          "Breadth",
-          "Accuracy",
-          "Pacing",
-          "Significance"
+          "Misrepresenting the argument to make it trivially easy to refute",
+          "Constructing the strongest, most coherent version of the opposing argument before critiquing it",
+          "Attacking the speaker's personal motives instead of evaluating their evidence",
+          "Repeating your original thesis continuously until the counterparty concedes"
         ],
         correctAnswerIndex: 1,
-        explanation: "Accuracy specifically assesses whether a claim represents verifiable, empirical truth."
+        marks: 2,
+        topicTag: "Intellectual Standards",
+        difficulty: "Intermediate",
+        explanation: "Steelmanning is the intellectual standard of fairness where one constructs the most rigorous, charitable, and formidable representation of an opponent's viewpoint before analyzing its validity."
+      },
+      {
+        id: "q6",
+        question: "Which of the following examples represent valid Informal Logical Fallacies? (Select all that apply)",
+        questionType: "multiple",
+        options: [
+          "Ad Hominem: Discrediting a mathematical claim by insulting the researcher's appearance",
+          "Modus Ponens: If P implies Q, and P is true, then Q must be true",
+          "False Dilemma: Forcing an audience to choose between only two extremes when nuances exist",
+          "Post Hoc Ergo Propter Hoc: Assuming that because event B followed event A, event A caused event B",
+          "Empirical Verification: Cross-referencing field data against calibrated control benchmarks"
+        ],
+        correctAnswerIndices: [0, 2, 3],
+        marks: 3,
+        topicTag: "Informal Fallacies",
+        difficulty: "Advanced",
+        explanation: "Ad Hominem (A), False Dilemma (C), and Post Hoc Ergo Propter Hoc (D) are classic informal fallacies. Modus Ponens (B) is a valid rule of deductive inference, and Empirical Verification (E) is scientific method practice."
+      },
+      {
+        id: "q7",
+        question: "Which Universal Intellectual Standard (Paul & Elder) asks: 'Could you give an illustrative concrete example to clarify what this assertion means in practice?'",
+        questionType: "single",
+        options: [
+          "Breadth",
+          "Precision",
+          "Clarity",
+          "Fairness"
+        ],
+        correctAnswerIndex: 2,
+        marks: 2,
+        topicTag: "Intellectual Standards",
+        difficulty: "Beginner",
+        explanation: "Clarity asks whether a statement is understandable, requiring elaboration, illustration, or examples if vague."
+      },
+      {
+        id: "q8",
+        question: "In a corporate negotiation, the first number stated on the table heavily influences subsequent counteroffers, regardless of its objective merit. This heuristic phenomenon is known as:",
+        questionType: "single",
+        options: [
+          "Anchoring bias",
+          "Hindsight bias",
+          "The framing effect",
+          "The halo effect"
+        ],
+        correctAnswerIndex: 0,
+        marks: 2,
+        topicTag: "Heuristics",
+        difficulty: "Intermediate",
+        explanation: "Anchoring bias is the tendency to rely too heavily on the initial piece of information offered (the 'anchor') when making decisions or estimations."
+      },
+      {
+        id: "q9",
+        question: "What conditions must be satisfied for a deductive argument to be considered 'Sound'? (Select all that apply)",
+        questionType: "multiple",
+        options: [
+          "The argument must be logically valid (the conclusion follows necessarily from premises)",
+          "All premises within the argument must be empirically true in reality",
+          "The conclusion must be emotionally pleasant and universally popular",
+          "The argument must rely on circular reasoning to reinforce its own premise"
+        ],
+        correctAnswerIndices: [0, 1],
+        marks: 4,
+        topicTag: "Deductive Logic",
+        difficulty: "Advanced",
+        explanation: "In formal logic, an argument is 'Sound' if and only if (1) it is logically valid in structure, and (2) all of its premises are factually true. Popularity (C) and circularity (D) are irrelevant or invalid."
+      },
+      {
+        id: "q10",
+        question: "Why do individuals often estimate the probability of airplane crashes as higher than car accidents, despite statistics proving the opposite?",
+        questionType: "single",
+        options: [
+          "Airplane accidents are more frequently covered by insurance companies",
+          "Availability heuristic: Vivid, catastrophic airplane crashes are recalled with greater cognitive ease",
+          "System 2 thinking automatically prioritizes aviation physics",
+          "Confirmation bias prevents people from recognizing automobiles"
+        ],
+        correctAnswerIndex: 1,
+        marks: 3,
+        topicTag: "Availability Heuristic",
+        difficulty: "Intermediate",
+        explanation: "The Availability Heuristic leads people to assess frequency or probability based on how easily examples come to mind; highly publicized and vivid events are easily recalled and therefore perceived as more probable."
       }
     ]
   },

@@ -24,7 +24,9 @@ import LearnerDashboardPage from './pages/learner/LearnerDashboardPage';
 import MyCoursesPage from './pages/learner/MyCoursesPage';
 import LessonLearningPage from './pages/learner/LessonLearningPage';
 import QuizActivityPage from './pages/learner/QuizActivityPage';
+import QuizAssessmentWindowPage from './pages/learner/QuizAssessmentWindowPage';
 import LearnerProfilePage from './pages/learner/LearnerProfilePage';
+import UnderTestingBanner from './components/common/UnderTestingBanner';
 
 // Admin / CRM Pages
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
@@ -110,33 +112,36 @@ function AdminRoute({ children }) {
 // Isolation Notice for when someone visits /admin or /crm on Public Port 5173
 function CrmPortRedirectNotice() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
-      <div className="text-center p-8 bg-slate-800 border border-slate-700 rounded-3xl shadow-2xl max-w-md space-y-5">
-        <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/20">
-          <ShieldAlert className="w-7 h-7" />
-        </div>
-        <div className="space-y-1">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800/40">
-            Security Isolation
-          </span>
-          <h2 className="text-xl font-bold text-white pt-2">CRM Console is Isolated</h2>
-        </div>
-        <p className="text-xs text-slate-300 leading-relaxed font-sans">
-          This port (<strong>5173</strong>) is dedicated exclusively to the Public Learning Site. The Administrative CRM Console runs on its own isolated server:
-        </p>
-        <div className="p-3 bg-slate-900 rounded-xl font-mono text-xs text-emerald-400 border border-slate-700">
-          http://localhost:5174
-        </div>
-        <div className="pt-2">
-          <a
-            href="http://localhost:5174"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono font-bold text-xs shadow-lg shadow-emerald-900/30 transition-all"
-          >
-            <span>Launch CRM Portal (Port 5174)</span>
-            <ArrowRight className="w-4 h-4" />
-          </a>
+    <div className="min-h-screen flex flex-col justify-between bg-slate-900">
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="text-center p-8 bg-slate-800 border border-slate-700 rounded-3xl shadow-2xl max-w-md space-y-5">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/20">
+            <ShieldAlert className="w-7 h-7" />
+          </div>
+          <div className="space-y-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800/40">
+              Security Isolation
+            </span>
+            <h2 className="text-xl font-bold text-white pt-2">CRM Console is Isolated</h2>
+          </div>
+          <p className="text-xs text-slate-300 leading-relaxed font-sans">
+            This port (<strong>5173</strong>) is dedicated exclusively to the Public Learning Site. The Administrative CRM Console runs on its own isolated server:
+          </p>
+          <div className="p-3 bg-slate-900 rounded-xl font-mono text-xs text-emerald-400 border border-slate-700">
+            http://localhost:5174
+          </div>
+          <div className="pt-2">
+            <a
+              href="http://localhost:5174"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono font-bold text-xs shadow-lg shadow-emerald-900/30 transition-all"
+            >
+              <span>Launch CRM Portal (Port 5174)</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
         </div>
       </div>
+      <UnderTestingBanner mode="dark" />
     </div>
   );
 }
@@ -180,9 +185,12 @@ function PublicApp() {
         <Route index element={<LearnerDashboardPage />} />
         <Route path="my-courses" element={<MyCoursesPage />} />
         <Route path="lessons/:lessonId" element={<LessonLearningPage />} />
-        <Route path="activities/:activityId" element={<QuizActivityPage />} />
         <Route path="profile" element={<LearnerProfilePage />} />
       </Route>
+
+      {/* Dedicated Full-Screen Proctoral Assessment Window (test_window_plan.md Section 3.2) */}
+      <Route path="/learn/activities/:activityId" element={<LearnerRoute><QuizAssessmentWindowPage /></LearnerRoute>} />
+      <Route path="/assessment/:activityId" element={<LearnerRoute><QuizAssessmentWindowPage /></LearnerRoute>} />
 
       {/* Explicit Isolation: Direct users to port 5174 for administrative CRM */}
       <Route path="/admin/*" element={<CrmPortRedirectNotice />} />

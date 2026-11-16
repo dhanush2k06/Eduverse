@@ -33,6 +33,7 @@ app.use('/api/v1/categories', categoriesRoutes);
 app.use('/api/v1/courses', coursesRoutes);
 app.use('/api/v1/lessons', lessonsRoutes);
 app.use('/api/v1/activities', activitiesRoutes);
+app.use('/api/v1/assessments', activitiesRoutes);
 app.use('/api/v1/me', meRoutes);
 app.use('/api/v1/admin/crm', crmRoutes);
 app.use('/api/v1/admin', adminRoutes);

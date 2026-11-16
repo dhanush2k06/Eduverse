@@ -16,6 +16,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import UnderTestingBanner from '../common/UnderTestingBanner';
 
 export default function AdminLayout() {
   const { currentUser, logout } = useAuth();
@@ -192,6 +193,7 @@ export default function AdminLayout() {
         <main className="p-8 flex-1 max-w-7xl mx-auto w-full">
           <Outlet />
         </main>
+        <UnderTestingBanner mode="dark" />
       </div>
     </div>
   );
